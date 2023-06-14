@@ -1,0 +1,1149 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "handiservice",
+  "title": "File Info DTO",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "dgphFileResult": {
+      "$ref": "#/definitions/DgphFileResultDTO"
+    },
+    "vsbFileResult": {
+      "$ref": "#/definitions/VsbFileResultDTO"
+    },
+    "kindEnGezinFileResult": {
+      "$ref": "#/definitions/KindEnGezinFileResultDTO"
+    },
+    "iriscareFileResult": {
+      "$ref": "#/definitions/IriscareFileResultDTO"
+    },
+    "nicCinFileResult": {
+      "$ref": "#/definitions/NicCinFileResultDTO"
+    },
+    "aviqFileResult": {
+      "$ref": "#/definitions/AviqFileResultDTO"
+    },
+    "dslFileResult": {
+      "$ref": "#/definitions/DslFileResultDTO"
+    },
+    "globalStatus": {
+      "$ref": "#/definitions/HandiStatusDTO"
+    }
+  },
+  "definitions": {
+    "DgphFileResultDTO": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "sourceStatus": {
+          "type": "string"
+        },
+        "file": {
+          "$ref": "#/definitions/DgphFileDTO"
+        }
+      },
+      "required": ["sourceStatus"]
+    },
+    "DgphFileDTO": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "personData": {
+          "$ref": "#/definitions/PersonDataDTO"
+        },
+        "evolutionOfRequest": {
+          "$ref": "#/definitions/DgphEvolutionOfRequestDTO"
+        },
+        "handicapRecognitions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DgphHandicapRecognitionDTO"
+          }
+        },
+        "rights": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DgphRightDTO"
+          }
+        }
+      },
+      "required": ["handicapRecognitions", "rights"]
+    },
+    "PersonDataDTO": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "lastName": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": ["string", "null"]
+        },
+        "address": {
+          "$ref": "#/definitions/AddressDTO"
+        }
+      },
+      "required": ["lastName"]
+    },
+    "AddressDTO": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "building": {
+          "type": ["string", "null"]
+        },
+        "streetCode": {
+          "type": ["string", "null"]
+        },
+        "streetNames": {
+          "type": ["array", "null"],
+          "items": {
+            "$ref": "#/definitions/DescriptionDTO"
+          }
+        },
+        "houseNumber": {
+          "type": ["string", "null"]
+        },
+        "boxNumber": {
+          "type": ["string", "null"]
+        },
+        "postalCode": {
+          "type": ["string", "null"]
+        },
+        "cityCode": {
+          "type": ["string", "null"]
+        },
+        "cityNames": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DescriptionDTO"
+          }
+        },
+        "countryCode": {
+          "type": "string"
+        },
+        "countryNames": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DescriptionDTO"
+          }
+        },
+        "startDate": {
+          "type": ["string", "null"],
+          "anyOf": [
+            {
+              "format": "custom-date"
+            },
+            {
+              "format": "date"
+            }
+          ]
+        },
+        "addressType": {
+          "type": "string"
+        }
+      },
+      "required": ["countryCode", "addressType"]
+    },
+    "DescriptionDTO": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "language": {
+          "type": "string",
+          "enum": ["NL", "FR", "DE"]
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": ["value"]
+    },
+    "DgphEvolutionOfRequestDTO": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "legislation": {
+          "type": "integer"
+        },
+        "requestDate": {
+          "type": ["string", "null"],
+          "anyOf": [
+            {
+              "format": "custom-date"
+            },
+            {
+              "format": "date"
+            }
+          ]
+        },
+        "administrativePendingRequest": {
+          "type": "boolean"
+        },
+        "handicapRecognitionPending": {
+          "type": "boolean"
+        },
+        "fileCompletionDate": {
+          "type": ["string", "null"],
+          "anyOf": [
+            {
+              "format": "custom-date"
+            },
+            {
+              "format": "date"
+            }
+          ]
+        },
+        "appeal": {
+          "type": "boolean"
+        }
+      },
+      "required": ["legislation", "administrativePendingRequest", "handicapRecognitionPending", "appeal"]
+    },
+    "DgphHandicapRecognitionDTO": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "recognitionStatus": {
+          "$ref": "#/definitions/RecognitionStatusDTO"
+        },
+        "legislation": {
+          "type": ["integer", "null"]
+        },
+        "handicapRecognitionDetails": {
+          "$ref": "#/definitions/DgphHandicapRecognitionDetailsDTO"
+        },
+        "resultRecognitionAdult": {
+          "$ref": "#/definitions/DgphResultRecognitionAdultDTO"
+        },
+        "decisionStatus": {
+          "type": ["string", "null"],
+          "enum": [
+            "RECOGNITION_DETERMINED",
+            "RECOGNITION_COPIED_FROM_OTHER_REGION",
+            "INCOMPLETE_MEDICAL_DOCUMENTS",
+            "INCOMPLETE_MEDICAL_APPRAISAL_ABSENCE",
+            null
+          ]
+        }
+      }
+    },
+    "RecognitionStatusDTO": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "dateOfDecision": {
+          "type": "string",
+          "anyOf": [
+            {
+              "format": "custom-date"
+            },
+            {
+              "format": "date"
+            }
+          ]
+        },
+        "startDateRecognition": {
+          "type": "string",
+          "anyOf": [
+            {
+              "format": "custom-date"
+            },
+            {
+              "format": "date"
+            }
+          ]
+        },
+        "endDateRecognition": {
+          "type": ["string", "null"],
+          "anyOf": [
+            {
+              "format": "custom-date"
+            },
+            {
+              "format": "date"
+            }
+          ]
+        }
+      },
+      "required": ["dateOfDecision", "startDateRecognition"]
+    },
+    "DgphHandicapRecognitionDetailsDTO": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "lowerLimbs50P": {
+          "type": "boolean"
+        },
+        "fullBlindness": {
+          "type": "boolean"
+        },
+        "upperLimbsAmputated": {
+          "type": "boolean"
+        },
+        "upperLimbsParalyzed": {
+          "type": "boolean"
+        }
+      },
+      "required": ["lowerLimbs50P", "fullBlindness", "upperLimbsAmputated", "upperLimbsParalyzed"]
+    },
+    "DgphResultRecognitionAdultDTO": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "diminutionIndependence": {
+          "$ref": "#/definitions/DiminuationIndependenceDTO"
+        },
+        "diminutionEarnings": {
+          "$ref": "#/definitions/DgphDiminutionEarningsDTO"
+        },
+        "unsuitability": {
+          "$ref": "#/definitions/DgphUnsuitabilityDTO"
+        }
+      },
+      "required": ["diminutionIndependence"]
+    },
+    "DiminuationIndependenceDTO": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "mobility": {
+          "type": ["integer", "null"]
+        },
+        "nourishment": {
+          "type": ["integer", "null"]
+        },
+        "hygiene": {
+          "type": ["integer", "null"]
+        },
+        "household": {
+          "type": ["integer", "null"]
+        },
+        "supervision": {
+          "type": ["integer", "null"]
+        },
+        "socialSkills": {
+          "type": ["integer", "null"]
+        },
+        "totalPoints": {
+          "type": ["integer", "null"]
+        }
+      }
+    },
+    "DgphDiminutionEarningsDTO": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "type": "boolean"
+        }
+      },
+      "required": ["value"]
+    },
+    "DgphUnsuitabilityDTO": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "mentalUnsuitability": {
+          "type": "number"
+        },
+        "physicalUnsuitability": {
+          "type": "number"
+        }
+      }
+    },
+    "DgphRightDTO": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "openPeriod": {
+          "$ref": "#/definitions/OpenPeriodDTO"
+        },
+        "legislation": {
+          "type": "integer"
+        },
+        "totalMonthAmount": {
+          "type": "number"
+        },
+        "monthAmount": {
+          "type": "number"
+        },
+        "categoryIVT": {
+          "type": "string"
+        },
+        "categoryIT": {
+          "type": "integer"
+        },
+        "partnerIncome": {
+          "type": "boolean"
+        },
+        "decisionStatus": {
+          "type": ["string", "null"],
+          "enum": [
+            "POSITIVE",
+            "POSITIVE_COPIED_FROM_OTHER_REGION",
+            "NEGATIVE_NOT_ENOUGH_HANDICAP",
+            "NEGATIVE_INCOMPLETE_MEDICAL",
+            "NEGATIVE_TOO_MUCH_INCOME",
+            "NEGATIVE_INCOMPLETE_ADMINISTRATIVE",
+            "NEGATIVE_INCOMPLETE_ADMINISTRATIVE_AND_MEDIC",
+            "NEGATIVE_AGE_CONDITION",
+            "NEGATIVE_RESIDENCY_CONDITION",
+            "NEGATIVE_NATIONALITY_CONDITION",
+            "NEGATIVE_LAW_TRANSITION",
+            "NEGATIVE_RENUNCIATION_BY_CITIZEN",
+            null
+          ]
+        }
+      },
+      "required": [
+        "openPeriod",
+        "legislation",
+        "totalMonthAmount",
+        "monthAmount",
+        "categoryIVT",
+        "categoryIT",
+        "partnerIncome"
+      ]
+    },
+    "OpenPeriodDTO": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "beginDate": {
+          "type": "string",
+          "anyOf": [
+            {
+              "format": "custom-date"
+            },
+            {
+              "format": "date"
+            }
+          ]
+        },
+        "endDate": {
+          "type": ["string", "null"],
+          "anyOf": [
+            {
+              "format": "custom-date"
+            },
+            {
+              "format": "date"
+            }
+          ]
+        }
+      },
+      "required": ["beginDate"]
+    },
+    "VsbFileResultDTO": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "sourceStatus": {
+          "type": "string"
+        },
+        "file": {
+          "$ref": "#/definitions/VsbFileDTO"
+        }
+      },
+      "required": ["sourceStatus"]
+    },
+    "VsbFileDTO": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "evolutionOfRequest": {
+          "$ref": "#/definitions/VsbEvolutionOfRequestDTO"
+        },
+        "rights": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/VsbRightDTO"
+          }
+        }
+      },
+      "required": ["rights"]
+    },
+    "VsbEvolutionOfRequestDTO": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "legislation": {
+          "type": "integer"
+        },
+        "requestDate": {
+          "type": ["string", "null"],
+          "anyOf": [
+            {
+              "format": "custom-date"
+            },
+            {
+              "format": "date"
+            }
+          ]
+        },
+        "administrativePendingRequest": {
+          "type": "boolean"
+        },
+        "fileCompletionDate": {
+          "type": ["string", "null"],
+          "anyOf": [
+            {
+              "format": "custom-date"
+            },
+            {
+              "format": "date"
+            }
+          ]
+        },
+        "appeal": {
+          "type": "boolean"
+        }
+      },
+      "required": ["legislation", "administrativePendingRequest", "appeal"]
+    },
+    "VsbRightDTO": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "openPeriod": {
+          "$ref": "#/definitions/OpenPeriodDTO"
+        },
+        "legislation": {
+          "type": "integer"
+        },
+        "totalMonthAmount": {
+          "type": "number"
+        },
+        "decisionStatus": {
+          "type": ["string", "null"],
+          "enum": [
+            "POSITIVE",
+            "POSITIVE_COPIED_FROM_OTHER_REGION",
+            "NEGATIVE_NOT_ENOUGH_HANDICAP",
+            "NEGATIVE_INCOMPLETE_MEDICAL",
+            "NEGATIVE_TOO_MUCH_INCOME",
+            "NEGATIVE_INCOMPLETE_ADMINISTRATIVE",
+            "NEGATIVE_INCOMPLETE_ADMINISTRATIVE_AND_MEDIC",
+            "NEGATIVE_AGE_CONDITION",
+            "NEGATIVE_RESIDENCY_CONDITION",
+            "NEGATIVE_NATIONALITY_CONDITION",
+            "NEGATIVE_LAW_TRANSITION",
+            "NEGATIVE_RENUNCIATION_BY_CITIZEN",
+            null
+          ]
+        }
+      },
+      "required": ["openPeriod", "legislation", "totalMonthAmount"]
+    },
+    "KindEnGezinFileResultDTO": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "sourceStatus": {
+          "type": "string"
+        },
+        "file": {
+          "$ref": "#/definitions/KindEnGezinFileDTO"
+        }
+      },
+      "required": ["sourceStatus"]
+    },
+    "KindEnGezinFileDTO": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "evolutionOfRequest": {
+          "$ref": "#/definitions/KindEnGezinEvolutionOfRequestDTO"
+        },
+        "handicapRecognitions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/KindEnGezinHandicapRecognitionDTO"
+          }
+        }
+      },
+      "required": ["handicapRecognitions"]
+    },
+    "KindEnGezinEvolutionOfRequestDTO": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "legislation": {
+          "type": "integer"
+        },
+        "requestDate": {
+          "type": ["string", "null"],
+          "anyOf": [
+            {
+              "format": "custom-date"
+            },
+            {
+              "format": "date"
+            }
+          ]
+        },
+        "handicapRecognitionPending": {
+          "type": "boolean"
+        },
+        "fileCompletionDate": {
+          "type": ["string", "null"],
+          "anyOf": [
+            {
+              "format": "custom-date"
+            },
+            {
+              "format": "date"
+            }
+          ]
+        },
+        "appeal": {
+          "type": "boolean"
+        }
+      },
+      "required": ["legislation", "handicapRecognitionPending", "appeal"]
+    },
+    "KindEnGezinHandicapRecognitionDTO": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "recognitionStatus": {
+          "$ref": "#/definitions/RecognitionStatusDTO"
+        },
+        "legislation": {
+          "type": "integer"
+        },
+        "resultRecognitionChild": {
+          "$ref": "#/definitions/KindEnGezinResultRecognitionChildDTO"
+        },
+        "decisionStatus": {
+          "type": "string"
+        }
+      }
+    },
+    "KindEnGezinResultRecognitionChildDTO": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "pillars": {
+          "$ref": "#/definitions/PillarsDTO"
+        }
+      }
+    },
+    "PillarsDTO": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "pillar1": {
+          "type": "integer"
+        },
+        "pillar2": {
+          "type": "integer"
+        },
+        "pillar3": {
+          "type": "integer"
+        },
+        "pillarsTotal": {
+          "type": "integer"
+        }
+      }
+    },
+    "IriscareFileResultDTO": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "sourceStatus": {
+          "type": "string"
+        },
+        "file": {
+          "$ref": "#/definitions/IriscareFileDTO"
+        }
+      },
+      "required": ["sourceStatus"]
+    },
+    "IriscareFileDTO": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "evolutionOfRequest": {
+          "$ref": "#/definitions/IriscareEvolutionOfRequestDTO"
+        },
+        "handicapRecognitions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/IriscareHandicapRecognitionDTO"
+          }
+        },
+        "rights": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/IriscareRightDTO"
+          }
+        }
+      },
+      "required": ["handicapRecognitions", "rights"]
+    },
+    "IriscareEvolutionOfRequestDTO": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "legislation": {
+          "type": "integer"
+        },
+        "requestDate": {
+          "type": ["string", "null"],
+          "anyOf": [
+            {
+              "format": "custom-date"
+            },
+            {
+              "format": "date"
+            }
+          ]
+        },
+        "administrativePendingRequest": {
+          "type": "boolean"
+        },
+        "handicapRecognitionPending": {
+          "type": "boolean"
+        },
+        "fileCompletionDate": {
+          "type": ["string", "null"],
+          "anyOf": [
+            {
+              "format": "custom-date"
+            },
+            {
+              "format": "date"
+            }
+          ]
+        },
+        "appeal": {
+          "type": "boolean"
+        }
+      },
+      "required": ["legislation", "administrativePendingRequest", "handicapRecognitionPending", "appeal"]
+    },
+    "IriscareHandicapRecognitionDTO": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "legislation": {
+          "type": "integer"
+        },
+        "decisionStatus": {
+          "type": "string"
+        },
+        "recognitionStatus": {
+          "$ref": "#/definitions/RecognitionStatusDTO"
+        },
+        "resultRecognitionChild": {
+          "$ref": "#/definitions/IriscareResultRecognitionChildDTO"
+        },
+        "resultRecognitionAdult": {
+          "$ref": "#/definitions/IrisicareResultRecognitionAdultDTO"
+        }
+      },
+      "required": ["legislation", "decisionStatus"]
+    },
+    "IriscareResultRecognitionChildDTO": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "inabilityFollowCourse": {
+          "type": "boolean"
+        },
+        "pillars": {
+          "$ref": "#/definitions/PillarsDTO"
+        }
+      }
+    },
+    "IrisicareResultRecognitionAdultDTO": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "diminuationIndependence": {
+          "$ref": "#/definitions/DiminuationIndependenceDTO"
+        }
+      },
+      "required": ["diminuationIndependence"]
+    },
+    "IriscareRightDTO": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "period": {
+          "$ref": "#/definitions/OpenPeriodDTO"
+        },
+        "legislation": {
+          "type": "integer"
+        },
+        "totalMonthAmount": {
+          "type": "number"
+        },
+        "decisionStatus": {
+          "type": "string"
+        }
+      },
+      "required": ["legislation"]
+    },
+    "NicCinFileResultDTO": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "sourceStatus": {
+          "type": "string"
+        },
+        "file": {
+          "$ref": "#/definitions/NicCinFileDTO"
+        }
+      }
+    },
+    "NicCinFileDTO": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "evolutionOfRequest": {
+          "$ref": "#/definitions/NicCinEvolutionOfRequestDTO"
+        },
+        "handicapRecognitions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/NicCinHandicapRecognitionDTO"
+          }
+        },
+        "rights": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/NicCinRightDTO"
+          }
+        }
+      },
+      "required": ["handicapRecognitions", "rights"]
+    },
+    "NicCinEvolutionOfRequestDTO": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "legislation": {
+          "type": "integer"
+        },
+        "requestDate": {
+          "type": "string",
+          "anyOf": [
+            {
+              "format": "custom-date"
+            },
+            {
+              "format": "date"
+            }
+          ]
+        },
+        "administrativePendingRequest": {
+          "type": "boolean"
+        },
+        "handicapRecognitionPending": {
+          "type": "boolean"
+        },
+        "fileCompletionDate": {
+          "type": "string",
+          "anyOf": [
+            {
+              "format": "custom-date"
+            },
+            {
+              "format": "date"
+            }
+          ]
+        },
+        "appeal": {
+          "type": "boolean"
+        }
+      },
+      "required": ["legislation", "administrativePendingRequest", "handicapRecognitionPending", "appeal"]
+    },
+    "NicCinHandicapRecognitionDTO": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "recognitionStatus": {
+          "$ref": "#/definitions/RecognitionStatusDTO"
+        },
+        "legislation": {
+          "type": "integer"
+        },
+        "resultRecognitionAdult": {
+          "$ref": "#/definitions/NicCinResultRecognitionAdultDTO"
+        },
+        "decisionStatus": {
+          "type": "string"
+        }
+      },
+      "required": ["legislation", "decisionStatus"]
+    },
+    "NicCinResultRecognitionAdultDTO": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "diminuationIndependence": {
+          "$ref": "#/definitions/DiminuationIndependenceDTO"
+        }
+      },
+      "required": ["diminuationIndependence"]
+    },
+    "NicCinRightDTO": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "period": {
+          "$ref": "#/definitions/OpenPeriodDTO"
+        },
+        "legislation": {
+          "type": "integer"
+        },
+        "totalMonthAmount": {
+          "type": "number"
+        },
+        "decisionStatus": {
+          "type": "string"
+        }
+      },
+      "required": ["period", "legislation", "totalMonthAmount", "decisionStatus"]
+    },
+    "AviqFileResultDTO": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "sourceStatus": {
+          "type": "string"
+        },
+        "file": {
+          "$ref": "#/definitions/AviqFileDTO"
+        }
+      },
+      "required": ["sourceStatus"]
+    },
+    "AviqFileDTO": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "evolutionOfRequest": {
+          "$ref": "#/definitions/AviqEvolutionOfRequestDTO"
+        },
+        "handicapRecognitions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AviqHandicapRecognitionDTO"
+          }
+        }
+      },
+      "required": ["handicapRecognitions"]
+    },
+    "AviqEvolutionOfRequestDTO": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "legislation": {
+          "type": "integer"
+        },
+        "requestDate": {
+          "type": "string",
+          "anyOf": [
+            {
+              "format": "custom-date"
+            },
+            {
+              "format": "date"
+            }
+          ]
+        },
+        "handicapRecognitionPending": {
+          "type": "boolean"
+        },
+        "fileCompletionDate": {
+          "type": "string",
+          "anyOf": [
+            {
+              "format": "custom-date"
+            },
+            {
+              "format": "date"
+            }
+          ]
+        },
+        "appeal": {
+          "type": "boolean"
+        }
+      },
+      "required": ["legislation", "handicapRecognitionPending", "appeal"]
+    },
+    "AviqHandicapRecognitionDTO": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "recognitionStatus": {
+          "$ref": "#/definitions/RecognitionStatusDTO"
+        },
+        "legislation": {
+          "type": "integer"
+        },
+        "resultRecognitionChild": {
+          "$ref": "#/definitions/AviqResultRecognitionChildDTO"
+        },
+        "decisionStatus": {
+          "type": "string"
+        }
+      },
+      "required": ["recognitionStatus", "legislation", "decisionStatus"]
+    },
+    "AviqResultRecognitionChildDTO": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "inabilityFollowCourse": {
+          "type": "boolean"
+        },
+        "pillars": {
+          "$ref": "#/definitions/PillarsDTO"
+        }
+      }
+    },
+    "DslFileResultDTO": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "sourceStatus": {
+          "type": "string"
+        },
+        "file": {
+          "$ref": "#/definitions/DslFileDTO"
+        }
+      },
+      "required": ["sourceStatus"]
+    },
+    "DslFileDTO": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "evolutionOfRequest": {
+          "$ref": "#/definitions/DslEvolutionOfRequestDTO"
+        },
+        "handicapRecognitions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DslHandicapRecognitionDTO"
+          }
+        }
+      },
+      "required": ["handicapRecognitions"]
+    },
+    "DslEvolutionOfRequestDTO": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "legislation": {
+          "type": "integer"
+        },
+        "requestDate": {
+          "type": "string",
+          "anyOf": [
+            {
+              "format": "custom-date"
+            },
+            {
+              "format": "date"
+            }
+          ]
+        },
+        "handicapRecognitionPending": {
+          "type": "boolean"
+        },
+        "fileCompletionDate": {
+          "type": "string",
+          "anyOf": [
+            {
+              "format": "custom-date"
+            },
+            {
+              "format": "date"
+            }
+          ]
+        },
+        "appeal": {
+          "type": "boolean"
+        }
+      },
+      "required": ["legislation", "handicapRecognitionPending", "appeal"]
+    },
+    "DslHandicapRecognitionDTO": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "recognitionStatus": {
+          "$ref": "#/definitions/RecognitionStatusDTO"
+        },
+        "legislation": {
+          "type": "integer"
+        },
+        "resultRecognitionChild": {
+          "$ref": "#/definitions/DslResultRecognitionChildDTO"
+        },
+        "resultRecognitionAdult": {
+          "$ref": "#/definitions/DslResultRecognitionAdultDTO"
+        },
+        "decisionStatus": {
+          "type": "string"
+        }
+      },
+      "required": ["recognitionStatus", "legislation", "decisionStatus"]
+    },
+    "DslResultRecognitionChildDTO": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "inabilityFollowCourse": {
+          "type": "boolean"
+        },
+        "pillars": {
+          "$ref": "#/definitions/PillarsDTO"
+        }
+      }
+    },
+    "DslResultRecognitionAdultDTO": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "diminuationIndependence": {
+          "$ref": "#/definitions/DiminuationIndependenceDTO"
+        }
+      },
+      "required": ["diminuationIndependence"]
+    },
+    "HandiStatusDTO": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "status": {
+          "type": "integer"
+        },
+        "instance": {
+          "type": "string"
+        },
+        "fr": {
+          "type": "string"
+        },
+        "nl": {
+          "type": "string"
+        }
+      },
+      "required": ["type", "title", "status", "instance", "fr", "nl"]
+    }
+  }
+}

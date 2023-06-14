@@ -1,0 +1,496 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "File Info V 2 DTO",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "fileResults": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/FileResultDTO"
+      }
+    },
+    "globalStatus": {
+      "$ref": "#/definitions/HandiStatusDTO"
+    }
+  },
+  "definitions": {
+    "FileResultDTO": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "source": {
+          "type": "string",
+          "enum": ["DGPH", "VSB", "IRISCARE", "NICCIN", "KINDENGEZIN", "AVIQ", "DSL"]
+        },
+        "sourceStatus": {
+          "type": "string"
+        },
+        "statusDescription": {
+          "type": "string"
+        },
+        "file": {
+          "$ref": "#/definitions/FileDTO"
+        }
+      },
+      "required": ["source", "sourceStatus"]
+    },
+    "FileDTO": {
+      "type": "object",
+      "nullable": true,
+      "additionalProperties": false,
+      "properties": {
+        "personData": {
+          "$ref": "#/definitions/PersonDataDTO"
+        },
+        "evolutionOfRequest": {
+          "$ref": "#/definitions/EvolutionOfRequestDTO"
+        },
+        "handicapRecognitions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/HandicapRecognitionDTO"
+          }
+        },
+        "rights": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RightDTO"
+          }
+        }
+      },
+      "required": ["handicapRecognitions", "rights"]
+    },
+    "PersonDataDTO": {
+      "type": "object",
+      "nullable": true,
+      "additionalProperties": false,
+      "properties": {
+        "lastName": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string",
+          "nullable": true
+        },
+        "address": {
+          "$ref": "#/definitions/AddressDTO"
+        }
+      },
+      "required": ["lastName"]
+    },
+    "AddressDTO": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "building": {
+          "type": "string",
+          "nullable": true
+        },
+        "streetCode": {
+          "type": "string",
+          "nullable": true
+        },
+        "streetNames": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DescriptionDTO"
+          }
+        },
+        "houseNumber": {
+          "type": "string",
+          "nullable": true
+        },
+        "boxNumber": {
+          "type": "string",
+          "nullable": true
+        },
+        "postalCode": {
+          "type": "string",
+          "nullable": true
+        },
+        "cityCode": {
+          "type": "string",
+          "nullable": true
+        },
+        "cityNames": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DescriptionDTO"
+          }
+        },
+        "countryCode": {
+          "type": "string"
+        },
+        "countryNames": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DescriptionDTO"
+          }
+        },
+        "startDate": {
+          "type": "string",
+          "nullable": true,
+          "anyOf": [
+            {
+              "format": "custom-date"
+            },
+            {
+              "format": "date"
+            }
+          ]
+        },
+        "addressType": {
+          "type": "string"
+        }
+      },
+      "required": ["countryCode", "addressType"]
+    },
+    "DescriptionDTO": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "language": {
+          "type": "string",
+          "enum": ["NL", "FR", "DE"]
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": ["value"]
+    },
+    "EvolutionOfRequestDTO": {
+      "type": "object",
+      "nullable": true,
+      "additionalProperties": false,
+      "properties": {
+        "legislation": {
+          "type": "integer"
+        },
+        "requestDate": {
+          "type": "string",
+          "anyOf": [
+            {
+              "format": "custom-date"
+            },
+            {
+              "format": "date"
+            }
+          ],
+          "nullable": true
+        },
+        "administrativePendingRequest": {
+          "type": "boolean"
+        },
+        "handicapRecognitionPending": {
+          "type": "boolean"
+        },
+        "fileCompletionDate": {
+          "type": "string",
+          "anyOf": [
+            {
+              "format": "custom-date"
+            },
+            {
+              "format": "date"
+            }
+          ],
+          "nullable": true
+        },
+        "appeal": {
+          "type": "boolean"
+        }
+      },
+      "required": ["legislation", "administrativePendingRequest", "handicapRecognitionPending", "appeal"]
+    },
+    "HandicapRecognitionDTO": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "recognitionStatus": {
+          "$ref": "#/definitions/RecognitionStatusDTO"
+        },
+        "legislation": {
+          "type": "integer",
+          "nullable": true
+        },
+        "handicapRecognitionDetails": {
+          "$ref": "#/definitions/HandicapRecognitionDetailsDTO"
+        },
+        "resultRecognitionAdult": {
+          "$ref": "#/definitions/ResultRecognitionAdultDTO"
+        },
+        "resultRecognitionChild": {
+          "$ref": "#/definitions/ResultRecognitionChildDTO"
+        },
+        "decisionStatus": {
+          "type": "string",
+          "nullable": true
+        }
+      }
+    },
+    "RecognitionStatusDTO": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "dateOfDecision": {
+          "type": "string",
+          "anyOf": [
+            {
+              "format": "custom-date"
+            },
+            {
+              "format": "date"
+            }
+          ]
+        },
+        "startDateRecognition": {
+          "type": "string",
+          "anyOf": [
+            {
+              "format": "custom-date"
+            },
+            {
+              "format": "date"
+            }
+          ]
+        },
+        "endDateRecognition": {
+          "type": "string",
+          "anyOf": [
+            {
+              "format": "custom-date"
+            },
+            {
+              "format": "date"
+            }
+          ],
+          "nullable": true
+        }
+      },
+      "required": ["dateOfDecision", "startDateRecognition"]
+    },
+    "HandicapRecognitionDetailsDTO": {
+      "type": "object",
+      "nullable": true,
+      "additionalProperties": false,
+      "properties": {
+        "lowerLimbs50P": {
+          "type": "boolean"
+        },
+        "fullBlindness": {
+          "type": "boolean"
+        },
+        "upperLimbsAmputated": {
+          "type": "boolean"
+        },
+        "upperLimbsParalyzed": {
+          "type": "boolean"
+        }
+      },
+      "required": ["lowerLimbs50P", "fullBlindness", "upperLimbsAmputated", "upperLimbsParalyzed"]
+    },
+    "ResultRecognitionAdultDTO": {
+      "type": "object",
+      "nullable": true,
+      "additionalProperties": false,
+      "properties": {
+        "diminutionIndependence": {
+          "$ref": "#/definitions/DiminuationIndependenceDTO"
+        },
+        "diminutionEarnings": {
+          "$ref": "#/definitions/DiminutionEarningsDTO"
+        },
+        "unsuitability": {
+          "$ref": "#/definitions/UnsuitabilityDTO"
+        }
+      },
+      "required": ["diminutionIndependence"]
+    },
+    "DiminuationIndependenceDTO": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "mobility": {
+          "type": "integer"
+        },
+        "nourishment": {
+          "type": "integer"
+        },
+        "hygiene": {
+          "type": "integer"
+        },
+        "household": {
+          "type": "integer"
+        },
+        "supervision": {
+          "type": "integer"
+        },
+        "socialSkills": {
+          "type": "integer"
+        },
+        "totalPoints": {
+          "type": "integer"
+        }
+      }
+    },
+    "DiminutionEarningsDTO": {
+      "type": "object",
+      "nullable": true,
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "type": "boolean"
+        }
+      },
+      "required": ["value"]
+    },
+    "UnsuitabilityDTO": {
+      "type": "object",
+      "nullable": true,
+      "additionalProperties": false,
+      "properties": {
+        "mentalUnsuitability": {
+          "type": "number"
+        },
+        "physicalUnsuitability": {
+          "type": "number"
+        }
+      }
+    },
+    "ResultRecognitionChildDTO": {
+      "type": "object",
+      "nullable": true,
+      "additionalProperties": false,
+      "properties": {
+        "inabilityFollowCourse": {
+          "type": "boolean"
+        },
+        "childPathology": {
+          "type": "boolean"
+        },
+        "pillars": {
+          "$ref": "#/definitions/PillarsDTO"
+        }
+      }
+    },
+    "PillarsDTO": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "pillar1": {
+          "type": "integer"
+        },
+        "pillar2": {
+          "type": "integer"
+        },
+        "pillar3": {
+          "type": "integer"
+        },
+        "pillarsTotal": {
+          "type": "integer"
+        }
+      }
+    },
+    "RightDTO": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "openPeriod": {
+          "$ref": "#/definitions/OpenPeriodDTO"
+        },
+        "legislation": {
+          "type": "integer"
+        },
+        "totalMonthAmount": {
+          "type": "number"
+        },
+        "monthAmount": {
+          "type": "number",
+          "nullable": true
+        },
+        "categoryIVT": {
+          "type": "string",
+          "nullable": true
+        },
+        "categoryIT": {
+          "type": "integer",
+          "nullable": true
+        },
+        "partnerIncome": {
+          "type": "boolean"
+        },
+        "decisionStatus": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "openPeriod",
+        "legislation",
+        "totalMonthAmount",
+        "monthAmount",
+        "categoryIVT",
+        "categoryIT",
+        "partnerIncome"
+      ]
+    },
+    "OpenPeriodDTO": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "beginDate": {
+          "type": "string",
+          "anyOf": [
+            {
+              "format": "custom-date"
+            },
+            {
+              "format": "date"
+            }
+          ]
+        },
+        "endDate": {
+          "type": "string",
+          "anyOf": [
+            {
+              "format": "custom-date"
+            },
+            {
+              "format": "date"
+            }
+          ],
+          "nullable": true
+        }
+      },
+      "required": ["beginDate"]
+    },
+    "HandiStatusDTO": {
+      "type": "object",
+      "nullable": true,
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "status": {
+          "type": "integer"
+        },
+        "instance": {
+          "type": "string"
+        },
+        "fr": {
+          "type": "string"
+        },
+        "nl": {
+          "type": "string"
+        }
+      },
+      "required": ["type", "title", "status", "instance", "fr", "nl"]
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "app": {
+    "APP_VERSION": "local",
+    "ENV_NAME": "local"
+  }
+}
