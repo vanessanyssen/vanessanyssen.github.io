@@ -1,6 +1,6 @@
 {
   "app": {
-    "APP_VERSION": "local",
-    "ENV_NAME": "local"
+    "APP_VERSION": "5.0.1",
+    "ENV_NAME": "gh"
   }
 }
