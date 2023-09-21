@@ -1,7 +1,8 @@
 {
   "app": {
     "APP_VERSION": "${APP_VERSION}",
-    "ENV_NAME": "${ENV_NAME}"
+    "ENV_NAME": "${ENV_NAME}",
+    "ENABLE_ALL": "${ENABLE_ALL}"
   },
   "robinBackend": {
     "BASE_URL": "${ROBIN_BACKEND_URL}"
